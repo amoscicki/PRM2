@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "499764312975",
+    "project_id": "digidiary-9e71c",
+    "storage_bucket": "digidiary-9e71c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499764312975:android:1e6fc94c035698d049e9fa",
+        "android_client_info": {
+          "package_name": "com.example.prm2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsNB28JM-wwtta5yv3okJtxeldzAeEW30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
