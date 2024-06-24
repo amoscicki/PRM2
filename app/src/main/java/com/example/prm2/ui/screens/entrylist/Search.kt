@@ -1,4 +1,4 @@
-package com.example.prm2.ui
+package com.example.prm2.ui.screens.entrylist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,12 +12,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.keyword
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.setKeyword
 
 @Composable
 fun Search() {
+    val keyword = mutableStateOf(
+        keyword.current
+    )
+    val setKeyword = setKeyword.current
+
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,12 +42,13 @@ fun Search() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextField(modifier = Modifier,
-                value = "",
-                onValueChange = { /* doSomething() */ },
+                value = keyword.value,
+                onValueChange = {
+                    setKeyword(it)
+
+                },
                 placeholder = { Text("Search...") })
-            IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Outlined.Search, contentDescription = null)
-            }
+            Icon(Icons.Outlined.Search, contentDescription = null)
         }
     }
 }
