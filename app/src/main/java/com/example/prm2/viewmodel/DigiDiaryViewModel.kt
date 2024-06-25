@@ -8,8 +8,8 @@ import com.example.prm2.dependencyinjection.FirebaseDB
 import com.example.prm2.dependencyinjection.ImageCanvas
 import com.example.prm2.dependencyinjection.LocationServiceProvider
 import com.example.prm2.dependencyinjection.PermissionsManager
-import com.example.prm2.model.Entry
 import com.example.prm2.extensions.toEntry
+import com.example.prm2.model.Entry
 import com.google.firebase.firestore.ListenerRegistration
 
 class DigiDiaryViewModel(
