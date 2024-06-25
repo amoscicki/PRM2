@@ -29,9 +29,6 @@ import com.example.prm2.viewmodel.viewModelFactory
 class DigiDiaryActivity : ComponentActivity() {
 
 
-    // Get/check biometric/pin or prompt to set it up
-    // load home screen -> get data from FB
-    // function for adding new entry
     // get location
     // get date
     // function for adding picture

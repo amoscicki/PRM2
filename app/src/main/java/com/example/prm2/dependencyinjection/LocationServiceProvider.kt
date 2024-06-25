@@ -5,6 +5,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
 import android.os.Looper
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.mutableStateOf
@@ -14,6 +15,10 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Suppress("DEPRECATION")
@@ -33,18 +38,34 @@ class LocationServiceProvider(private val context: Context) {
 
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION])
-    fun startLocationUpdates() {
-        fusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            object : LocationCallback() {
+    fun startLocationUpdates(): Flow<Location> {
+        return callbackFlow {
+
+            val locationRequest = LocationRequest.create().apply {
+                interval = 10000 // Update interval in milliseconds
+                fastestInterval = 5000 // Fastest update interval in milliseconds
+                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            }
+
+            val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
-                    locationResult.lastLocation?.let { location ->
-                        currentLocation.value = LatLng(location.latitude, location.longitude)
+                    super.onLocationResult(locationResult)
+                    locationResult.locations.lastOrNull()?.let { loc ->
+                        launch { send(loc) }
                     }
                 }
-            },
-            Looper.getMainLooper()
-        )
+            }
+
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+
+            awaitClose {
+                fusedLocationClient.removeLocationUpdates(locationCallback)
+            }
+        }
     }
 
     fun stopLocationUpdates() {

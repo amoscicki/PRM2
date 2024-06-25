@@ -47,9 +47,7 @@ class DigiDiaryViewModel(
                 keyword.value,
                 ignoreCase = true
             ) ?: false
-//                    || e.date?.toLocaleString()
-//                ?.contains(keyword.value, ignoreCase = true) ?: false
-        }.let {
+       }.let {
             entries.clear()
             entries.putAll(it)
             println(entries)
@@ -61,6 +59,8 @@ class DigiDiaryViewModel(
     val getLocationName = locationServiceProvider::getLocationName
     val getCountryName = locationServiceProvider::getCountryName
 
+    val startRecording = audioRecorder::startRecording
+    val stopRecording = audioRecorder::stopRecording
 
 init {
     datalistener = firebaseDB.listen("entries") { qs ->

@@ -5,48 +5,58 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import com.example.prm2.dependencyinjection.PermissionsManager
 import com.example.prm2.model.Entry
 import com.google.android.gms.maps.model.LatLng
+import java.io.File
 
 class ProvidableCompositionLocalValues {
     companion object {
-        val keyword = compositionLocalOf<String> {
+        val LocalKeyword = compositionLocalOf<String> {
             error("No keyword provided")
         }
-        val setKeyword = staticCompositionLocalOf<(keyword: String) -> Unit> {
+        val LocalSetKeyword = staticCompositionLocalOf<(keyword: String) -> Unit> {
             error("No keyword provided")
         }
 
-        val entries = compositionLocalOf<MutableMap<String, Entry>> {
+        val LocalEntries = compositionLocalOf<MutableMap<String, Entry>> {
             error("No SharedViewModel provided")
         }
-        val saveEntry = staticCompositionLocalOf<(
+        val LocalSaveEntry = staticCompositionLocalOf<(
             entry: Entry,
             key: String?
         ) -> Unit> {
             error("No FirebaseDB provided")
         }
-        val deleteEntry = staticCompositionLocalOf<(key: String) -> Unit> {
+        val LocalDeleteEntry = staticCompositionLocalOf<(key: String) -> Unit> {
             error("No FirebaseDB provided")
         }
 
-        val permissions = compositionLocalOf<PermissionsManager.Permissions> {
+        val LocalPermissions = compositionLocalOf<PermissionsManager.Permissions> {
             error("No PermissionsManager provided")
         }
 
-        val currentLocation = compositionLocalOf<LatLng> {
+        val LocalCurrentLocation = compositionLocalOf<LatLng> {
             error("No location provided")
         }
 
-        val getLocationName = staticCompositionLocalOf<
+        val LocalGetLocationName = staticCompositionLocalOf<
                     (latLng: LatLng) -> String
                 > {
             error("No location provided")
         }
 
-        val getCountryName = staticCompositionLocalOf<
+        val LocalGetCountryName = staticCompositionLocalOf<
                     (latLng: LatLng) -> String
                 > {
             error("No location provided")
         }
+
+        val LocalStartRecording = staticCompositionLocalOf<() -> Unit> {
+            error("No audio recorder provided")
+        }
+
+        val LocalStopRecording = staticCompositionLocalOf<() -> Pair<File,Int>> {
+            error("No audio recorder provided")
+        }
+
 
     }
 }
