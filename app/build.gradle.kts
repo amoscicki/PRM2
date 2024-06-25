@@ -73,6 +73,8 @@ dependencies {
     implementation ("com.google.maps.android:maps-compose-utils:5.0.3")
     // Optionally, you can include the widgets library for ScaleBar, etc.
     implementation ("com.google.maps.android:maps-compose-widgets:5.0.3")
+
+    implementation ("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
     implementation(libs.play.services.location)
     implementation(libs.androidx.camera.core)
     implementation(libs.androidx.camera.lifecycle)

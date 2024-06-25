@@ -1,4 +1,4 @@
-package com.example.prm2.util
+package com.example.prm2.extensions
 
 import com.example.prm2.model.Audio
 import com.example.prm2.model.Entry

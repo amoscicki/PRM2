@@ -9,7 +9,7 @@ import com.example.prm2.dependencyinjection.ImageCanvas
 import com.example.prm2.dependencyinjection.LocationServiceProvider
 import com.example.prm2.dependencyinjection.PermissionsManager
 import com.example.prm2.model.Entry
-import com.example.prm2.util.toEntry
+import com.example.prm2.extensions.toEntry
 import com.google.firebase.firestore.ListenerRegistration
 
 class DigiDiaryViewModel(
