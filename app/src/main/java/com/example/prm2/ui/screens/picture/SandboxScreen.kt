@@ -24,7 +24,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PictureCanvasScreen(modifier: Modifier, navController: NavHostController) {
+fun SandboxScreen(modifier: Modifier, navController: NavHostController) {
     val context = LocalContext.current
     var currentPhotoUri by remember { mutableStateOf(value = Uri.EMPTY) }
     var tempPhotoUri by remember { mutableStateOf(value = Uri.EMPTY) }
@@ -38,9 +38,7 @@ fun PictureCanvasScreen(modifier: Modifier, navController: NavHostController) {
         permission = Manifest.permission.CAMERA,
         onPermissionResult = { granted ->
             if (granted) {
-                tempPhotoUri = context.createTempPictureUri(
-
-                )
+                tempPhotoUri = context.createTempPictureUri()
                 cameraLauncher.launch(tempPhotoUri)
             } else print("camera permission is denied")
         })

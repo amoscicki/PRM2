@@ -1,5 +1,6 @@
 package com.example.prm2.ui.screens.map
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -8,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.prm2.model.Entry
 import com.example.prm2.ui.screens.entrylist.EntryCard
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.currentLocation
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.entries
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalEntries
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -18,10 +19,11 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 
+@SuppressLint("UnrememberedMutableState", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MapScreen(modifier: Modifier, navController: NavHostController) {
-    val entries = entries.current
-    val startLocation = currentLocation.current
+    val entries = LocalEntries.current
+    val startLocation = LocalCurrentLocation.current
     val selectedEntry = mutableStateOf<Entry?>(null)
 
     Scaffold(modifier = modifier.fillMaxSize(), bottomBar = {

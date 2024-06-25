@@ -41,9 +41,9 @@ class FirebaseDB {
             val entry = Entry(
                 date = Date(),
                 geo = LatLng(51.5, 0.0),
-                audioUrls = listOf(
+                audio =
                     Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 60),
-                ),
+
             )
             if (it.documents.size == 0)
                 for (i in 1..10) {

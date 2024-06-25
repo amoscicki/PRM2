@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -16,15 +15,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.keyword
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.setKeyword
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalKeyword
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetKeyword
 
 @Composable
 fun Search() {
     val keyword = mutableStateOf(
-        keyword.current
+        LocalKeyword.current
     )
-    val setKeyword = setKeyword.current
+    val setKeyword = LocalSetKeyword.current
 
 
     Card(

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.prm2.model.Entry
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.entries
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalEntries
 
 @Composable
 fun EntryListScreen(
@@ -23,13 +23,13 @@ fun EntryListScreen(
     val selectedKey = mutableStateOf<String?>(null)
     val selectedEntry = mutableStateOf<Entry?>(null)
 
-    val entries = entries.current
+    val entries = LocalEntries.current
 
     Scaffold(modifier = modifier
         .fillMaxSize(),
         topBar = { Search() },
         bottomBar = {
-            SaveEntryCard(
+            QuickEditEntryCard(
                 selectedEntry,
                 selectedKey
             )

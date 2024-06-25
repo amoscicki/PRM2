@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.prm2.ui.PinRoute
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.permissions
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalPermissions
 
 
 @Composable
@@ -56,7 +56,7 @@ fun PermissionManagementScreen(
             style = MaterialTheme.typography.labelSmall
         )
 
-        permissions.current.map { (key, permission) ->
+        LocalPermissions.current.map { (key, permission) ->
             val launcher = rememberLauncherForActivityResult(
                 ActivityResultContracts.RequestPermission()
             ) {
@@ -88,7 +88,7 @@ fun PermissionManagementScreen(
         Button(modifier = Modifier.fillMaxWidth(),
             onClick = {
                 navController.navigate(PinRoute)
-            }, enabled = permissions.current.checkAllPermissionsGranted()
+            }, enabled = LocalPermissions.current.checkAllPermissionsGranted()
         ) {
             Text("Continue")
         }

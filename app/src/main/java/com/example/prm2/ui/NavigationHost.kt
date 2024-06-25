@@ -1,5 +1,6 @@
 package com.example.prm2.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -12,14 +13,13 @@ import androidx.navigation.compose.composable
 import com.example.prm2.ui.screens.entrylist.EntryListScreen
 import com.example.prm2.ui.screens.map.MapScreen
 import com.example.prm2.ui.screens.permissions.PermissionManagementScreen
-import com.example.prm2.ui.screens.picture.PictureCanvasScreen
+import com.example.prm2.ui.screens.picture.SandboxScreen
 import com.example.prm2.ui.screens.pin.PinScreen
 import kotlinx.serialization.Serializable
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun NavigationHost(navController: NavHostController) {
-
-
 
     val currentDestination =
         mutableStateOf(navController.currentDestination?.route?.substringAfterLast("."))
@@ -48,12 +48,12 @@ fun NavigationHost(navController: NavHostController) {
         topBar = { getTopBar() }
     ) { paddingValues ->
         val modifier = Modifier.padding(paddingValues)
-        NavHost(navController, startDestination = PictureCanvasRoute) {
+        NavHost(navController, startDestination = PermissionsManagementRoute) {
             composable<PermissionsManagementRoute> { PermissionManagementScreen(modifier, navController) }
             composable<EntryListRoute> { EntryListScreen(modifier, navController) }
             composable<MapRoute> { MapScreen(modifier, navController) }
             composable<PinRoute> { PinScreen(modifier, navController) }
-            composable<PictureCanvasRoute> { PictureCanvasScreen(modifier, navController) }
+            composable<SandboxRoute> { SandboxScreen(modifier, navController) }
         }
     }
 }
@@ -72,4 +72,4 @@ object MapRoute
 object PinRoute
 
 @Serializable
-object PictureCanvasRoute
+object SandboxRoute

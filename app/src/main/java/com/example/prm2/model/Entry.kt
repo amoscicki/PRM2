@@ -7,28 +7,28 @@ import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
 
-data class Entry (
+data class Entry(
     var title: String? = null,
     var content: String? = null,
     @ServerTimestamp
     var date: Date? = null,
-    var audioUrls: List<Audio> = emptyList(),
-    var imageUrls: List<String> = emptyList(),
+    var audio: Audio? = null,
+    var imageUrl: String? = null,
     var geo: LatLng? = null,
-){
+) {
     fun toFirestoreObject(): Map<String, Any?> {
         val entry = this
         return mapOf(
             "title" to entry.title,
             "content" to entry.content,
             "date" to entry.date,
-            "audioUrls" to entry.audioUrls.map { audio ->
+            "audio" to entry.audio?.let {
                 mapOf(
-                    "url" to audio.url,
-                    "lengthSec" to audio.lengthSec
+                    "url" to it.url,
+                    "duration" to it.lengthSec
                 )
             },
-            "imageUrls" to entry.imageUrls,
+            "imageUrl" to entry.imageUrl,
             "geo" to entry.geo?.let { GeoPoint(it.latitude, it.longitude) }
         )
     }
