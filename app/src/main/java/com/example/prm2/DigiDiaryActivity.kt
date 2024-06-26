@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.prm2.ui.NavigationHost
 import com.example.prm2.ui.theme.DigiDiaryTheme
 import com.example.prm2.viewmodel.DigiDiaryViewModel
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalAudioRecorder
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalDeleteEntry
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalEntries
@@ -23,8 +24,13 @@ import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.Loc
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalPermissions
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSaveEntry
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetKeyword
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalStartRecording
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalStopRecording
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetTempAudioFile
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetTempAudioSeconds
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetTempImageFile
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalTempAudioFile
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalTempAudioSeconds
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalTempImageFile
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalUploadFile
 import com.example.prm2.viewmodel.viewModelFactory
 
 
@@ -53,7 +59,6 @@ class DigiDiaryActivity : ComponentActivity() {
                     DigiDiaryViewModel(
                         DigiDiaryApp.instance.firebaseDB,
                         DigiDiaryApp.instance.permissionsManager,
-                        DigiDiaryApp.instance.imageCanvas,
                         DigiDiaryApp.instance.audioRecorder,
                         DigiDiaryApp.instance.locationServiceProvider
                     )
@@ -69,8 +74,14 @@ class DigiDiaryActivity : ComponentActivity() {
                     LocalCurrentLocation provides digiDiaryViewModel.currentLocation.value,
                     LocalGetLocationName provides digiDiaryViewModel.getLocationName,
                     LocalGetCountryName provides digiDiaryViewModel.getCountryName,
-                    LocalStartRecording provides digiDiaryViewModel.startRecording,
-                    LocalStopRecording provides digiDiaryViewModel.stopRecording
+                    LocalAudioRecorder provides digiDiaryViewModel.audioRecorderObject,
+                    LocalUploadFile provides digiDiaryViewModel.uploadFile,
+                    LocalTempAudioFile provides digiDiaryViewModel.tempAudioFile.value,
+                    LocalSetTempAudioFile provides digiDiaryViewModel.setTempAudioFile,
+                    LocalTempAudioSeconds provides digiDiaryViewModel.tempAudioSeconds.value,
+                    LocalSetTempAudioSeconds provides digiDiaryViewModel.setTempAudioSeconds,
+                    LocalTempImageFile provides digiDiaryViewModel.tempImageFile.value,
+                    LocalSetTempImageFile provides digiDiaryViewModel.setTempImageFile
                 ) {
                     println("Keyword: ${digiDiaryViewModel.keyword.value}")
                     println("Entries: ${digiDiaryViewModel.entries}")

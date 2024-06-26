@@ -60,12 +60,47 @@ class FirebaseDB {
         }
     }
 
-    fun saveEntry(entry: Entry, key: String? = null) {
+    fun saveEntry(
+        entry: Entry,
+        key: String? = null,
+        audio: File?,
+        audioLength: Int?,
+        image: File?
+    ) {
+        val audioGiven = audio != null && audioLength != null
+        val imageGiven = image != null
+
+        fun uploadFiles(key: String) {
+            if (!audioGiven && !imageGiven) {
+                db.collection("entries").document(key).set(entry)
+                return
+            }
+            if (audioGiven) {
+                uploadFile(audio!!, FileType.AUDIO) {
+                    entry.audio = Audio(
+                        url = it,
+                        lengthSec = audioLength
+                    )
+                    db.collection("entries").document(key).set(entry)
+                }
+            }
+            if (imageGiven) {
+                uploadFile(image!!, FileType.IMAGE) {
+                    entry.imageUrl = it
+                    db.collection("entries").document(key).set(entry)
+                }
+            }
+        }
+
         if (key != null) {
-            db.collection("entries").document(key).set(entry)
+            uploadFiles(key)
             return
         }
-        db.collection("entries").add(entry.toFirestoreObject())
+
+        db.collection("entries").add(entry.toFirestoreObject()).addOnSuccessListener {
+            uploadFiles(it.id)
+        }
+
     }
 
     fun deleteEntry(key: String) {

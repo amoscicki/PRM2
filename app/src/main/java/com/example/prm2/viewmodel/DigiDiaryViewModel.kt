@@ -1,12 +1,12 @@
 package com.example.prm2.viewmodel
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.prm2.dependencyinjection.AudioRecorder
 import com.example.prm2.dependencyinjection.FirebaseDB
-import com.example.prm2.dependencyinjection.ImageCanvas
 import com.example.prm2.dependencyinjection.LocationServiceProvider
 import com.example.prm2.dependencyinjection.PermissionsManager
 import com.example.prm2.extensions.toEntry
@@ -14,12 +14,13 @@ import com.example.prm2.model.Entry
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.launch
+import java.io.File
 
+@SuppressLint("MissingPermission")
 class DigiDiaryViewModel(
     private val firebaseDB: FirebaseDB,
     permissionsManager: PermissionsManager,
-    imageCanvas: ImageCanvas,
-    audioRecorder: AudioRecorder,
+    private val audioRecorder: AudioRecorder,
     private val locationServiceProvider: LocationServiceProvider
 ) : ViewModel() {
     private lateinit var datalistener: ListenerRegistration
@@ -47,10 +48,13 @@ class DigiDiaryViewModel(
             return
         }
         fetchedEntries.filterValues { e ->
+
             e.title?.contains(
-                keyword.value,
-                ignoreCase = true
-            ) ?: false
+                keyword.value, ignoreCase = true
+            ) ?: false || (e.note?.contains(
+                keyword.value, ignoreCase = true
+            )) ?: false
+
         }.let {
             entries.clear()
             entries.putAll(it)
@@ -59,13 +63,27 @@ class DigiDiaryViewModel(
 
     }
 
+    val uploadFile = firebaseDB::uploadFile
+
+    val tempImageFile = mutableStateOf<File?>(null)
+    val setTempImageFile = { file: File? ->
+        tempImageFile.value = file
+    }
+    val tempAudioFile = mutableStateOf<File?>(null)
+    val setTempAudioFile = { file: File? ->
+        tempAudioFile.value = file
+    }
+    val tempAudioSeconds = mutableStateOf(0)
+    val setTempAudioSeconds = { seconds: Int ->
+        tempAudioSeconds.value = seconds
+    }
+
 
     val currentLocation = mutableStateOf<LatLng>(LatLng(51.5, 0.0))
     val getLocationName = locationServiceProvider::getLocationName
     val getCountryName = locationServiceProvider::getCountryName
 
-    val startRecording = audioRecorder::startRecording
-    val stopRecording = audioRecorder::stopRecording
+    val audioRecorderObject = audioRecorder
 
     init {
         datalistener = firebaseDB.listen("entries") { qs ->

@@ -9,7 +9,7 @@ import java.util.Date
 
 data class Entry(
     var title: String? = null,
-    var content: String? = null,
+    var note: String? = null,
     @ServerTimestamp
     var date: Date? = null,
     var audio: Audio? = null,
@@ -17,19 +17,18 @@ data class Entry(
     var geo: LatLng? = null,
 ) {
     fun toFirestoreObject(): Map<String, Any?> {
-        val entry = this
         return mapOf(
-            "title" to entry.title,
-            "content" to entry.content,
-            "date" to entry.date,
-            "audio" to entry.audio?.let {
+            "title" to this.title,
+            "note" to this.note,
+            "date" to this.date,
+            "audio" to this.audio?.let {
                 mapOf(
                     "url" to it.url,
                     "duration" to it.lengthSec
                 )
             },
-            "imageUrl" to entry.imageUrl,
-            "geo" to entry.geo?.let { GeoPoint(it.latitude, it.longitude) }
+            "imageUrl" to this.imageUrl,
+            "geo" to this.geo?.let { GeoPoint(it.latitude, it.longitude) }
         )
     }
 }

@@ -10,7 +10,8 @@ fun DocumentSnapshot.toEntry(): Entry? {
     val document: DocumentSnapshot = this
     return document.data?.let { data ->
         Entry(
-            title = data["content"] as? String,
+            title = data["title"] as? String,
+            note = data["note"] as? String?,
             date = (data["date"] as? Timestamp)?.toDate(),
             audio = (data["audio"] as? Map<String, Audio>)?.let { audioMap ->
                 Audio(

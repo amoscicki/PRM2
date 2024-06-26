@@ -53,8 +53,8 @@ class LocationService : Service() {
     @SuppressLint("MissingPermission")
     private fun start() {
         val notification = NotificationCompat.Builder(this, "location")
-            .setContentTitle(R.string.app_name.toString())
-            .setContentText("Current location: ")
+            .setContentTitle(getString(R.string.app_name ))
+            .setContentText(getString(R.string.current_location_string))
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setOngoing(true)
 
@@ -64,7 +64,9 @@ class LocationService : Service() {
             val lat = loc.latitude
             val lon = loc.longitude
             val locality = locationServiceProvider.getLocationName(LatLng(lat, lon))
-            val contentText = "Current location: $locality"
+
+            val contentText = getString(R.string.current_location_string, locality)
+
             val newNotification = notification.setContentText(contentText)
             notificationManager.notify(1, newNotification.build())
 

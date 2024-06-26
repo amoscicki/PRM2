@@ -10,10 +10,6 @@ class DigiDiaryModule(
         AudioRecorder(context)
     }
 
-    override val imageCanvas: ImageCanvas by lazy {
-        ImageCanvas(context)
-    }
-
     override val permissionsManager: PermissionsManager by lazy {
         PermissionsManager(context)
     }

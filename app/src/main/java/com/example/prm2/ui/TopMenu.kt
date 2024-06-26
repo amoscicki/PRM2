@@ -13,12 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.prm2.R
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopMenu(navController: NavHostController) {
-    val location = LocalCurrentLocation.current
     TopAppBar(modifier = Modifier,
         title = {
             Text(text = stringResource(R.string.app_title))

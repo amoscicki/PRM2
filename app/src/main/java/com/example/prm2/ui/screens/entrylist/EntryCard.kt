@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.prm2.R
+import com.example.prm2.model.Audio
 import com.example.prm2.model.Entry
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetCountryName
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetLocationName
@@ -31,9 +32,6 @@ import java.text.SimpleDateFormat
 
 @Composable
 fun EntryCard(entry: Entry, callback: () -> Unit) {
-
-//    val getLocationName = getLocationName.current
-//    val getCountryName = getCountryName.current
 
     Card(
         onClick = { callback() },
@@ -97,7 +95,7 @@ fun EntryCard(entry: Entry, callback: () -> Unit) {
                     )
                     Text(
                         modifier = Modifier.padding(16.dp, 4.dp),
-                        text = entry.title ?: ""
+                        text = entry.title ?: "No title"
                     )
                 }
             }
@@ -122,7 +120,7 @@ fun EntryCard(entry: Entry, callback: () -> Unit) {
 
                     Text(
                         modifier = Modifier.padding(16.dp, 4.dp),
-                        text = entry.content ?: "",
+                        text = entry.note ?: "Empty note",
                         minLines = 3,
                     )
                 }
@@ -176,10 +174,9 @@ private fun AudioCards(entry: Entry) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { /*TODO*/ }) {
-
                 Icon(Icons.Outlined.PlayCircleOutline, contentDescription = null)
             }
-            Text(text = it?.lengthAsTimeString() ?: "0:00")
+            Text(text = Audio.lengthAsTimeString(it?.lengthSec ?:0))
         }
     }
 }
