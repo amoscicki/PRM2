@@ -8,7 +8,6 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Looper
 import androidx.annotation.RequiresPermission
-import androidx.compose.runtime.mutableStateOf
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -28,7 +27,6 @@ class LocationServiceProvider(private val context: Context) {
     private val geoCoder by lazy { Geocoder(context, Locale.getDefault()) }
 
 
-    val currentLocation = mutableStateOf<LatLng>(LatLng(51.5, 0.0))
 
     private val locationRequest = LocationRequest.create().apply {
         interval = 10000 // Update interval in milliseconds
@@ -51,7 +49,9 @@ class LocationServiceProvider(private val context: Context) {
                 override fun onLocationResult(locationResult: LocationResult) {
                     super.onLocationResult(locationResult)
                     locationResult.locations.lastOrNull()?.let { loc ->
-                        launch { send(loc) }
+                        launch {
+                            send( loc )
+                        }
                     }
                 }
             }

@@ -6,9 +6,9 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.example.prm2.R
 import com.example.prm2.dependencyinjection.LocationServiceProvider
-import com.example.prm2.viewmodel.LocationViewModel
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -24,7 +24,6 @@ class LocationService : Service() {
     )
     private lateinit var locationServiceProvider: LocationServiceProvider
 
-    private val locationViewModel = LocationViewModel.getInstance()
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -34,8 +33,7 @@ class LocationService : Service() {
     override fun onCreate() {
         super.onCreate()
         locationServiceProvider = LocationServiceProvider(
-            applicationContext,
-            LocationServices.getFusedLocationProviderClient(applicationContext)
+            applicationContext
         )
     }
 
@@ -55,8 +53,8 @@ class LocationService : Service() {
     @SuppressLint("MissingPermission")
     private fun start() {
         val notification = NotificationCompat.Builder(this, "location")
-            .setContentTitle("DigiDiaryLocationService")
-            .setContentText("Current location: null")
+            .setContentTitle(R.string.app_name.toString())
+            .setContentText("Current location: ")
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
             .setOngoing(true)
 
@@ -65,8 +63,9 @@ class LocationService : Service() {
         locationServiceProvider.startLocationUpdates().onEach { loc ->
             val lat = loc.latitude
             val lon = loc.longitude
-            val newNotification = notification.setContentText("Current location: $lat, $lon")
-            locationViewModel.updateLocation(loc)
+            val locality = locationServiceProvider.getLocationName(LatLng(lat, lon))
+            val contentText = "Current location: $locality"
+            val newNotification = notification.setContentText(contentText)
             notificationManager.notify(1, newNotification.build())
 
         }

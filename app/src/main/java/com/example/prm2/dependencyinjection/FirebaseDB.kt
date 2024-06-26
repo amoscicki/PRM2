@@ -1,5 +1,6 @@
 package com.example.prm2.dependencyinjection
 
+import androidx.core.net.toUri
 import com.example.prm2.model.Audio
 import com.example.prm2.model.Entry
 import com.google.android.gms.maps.model.LatLng
@@ -8,6 +9,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
+import java.io.File
 import java.util.Date
 
 class FirebaseDB {
@@ -36,31 +39,26 @@ class FirebaseDB {
 
     private fun seedDatabase(db: FirebaseFirestore) {
 
-         db.collection("entries").get().addOnSuccessListener {
+        db.collection("entries").get().addOnSuccessListener {
 
             val entry = Entry(
                 date = Date(),
                 geo = LatLng(51.5, 0.0),
                 audio =
-                    Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 60),
+                Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 60),
 
-            )
+                )
             if (it.documents.size == 0)
                 for (i in 1..10) {
                     entry.title = "Entry $i"
                     entry.geo = LatLng(
-                        (entry.geo!!.latitude.plus(i*0.2)),
-                        entry.geo!!.longitude.minus(i*0.2)
+                        (entry.geo!!.latitude.plus(i * 0.2)),
+                        entry.geo!!.longitude.minus(i * 0.2)
                     )
                     db.collection("entries").add(entry)
                 }
-
-
         }
-
     }
-
-
 
     fun saveEntry(entry: Entry, key: String? = null) {
         if (key != null) {
@@ -72,5 +70,35 @@ class FirebaseDB {
 
     fun deleteEntry(key: String) {
         db.collection("entries").document(key).delete()
+    }
+
+    fun uploadFile(
+        file: File,
+        type: FileType,
+        callback: (String) -> Unit
+    ) {
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val fileRef = storageRef.child(type.toString() + '/' + file.name)
+        fileRef.putFile(file.toUri()).addOnSuccessListener {
+            fileRef.downloadUrl.addOnSuccessListener {
+                callback(it.toString())
+            }
+        }
+    }
+
+    fun getFile(fileUrl: String, callback: (File) -> Unit) {
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val fileRef = storageRef.child(fileUrl)
+        val localFile = File.createTempFile("temp", "file")
+        fileRef.getFile(localFile).addOnSuccessListener {
+            callback(localFile)
+        }
+    }
+
+
+    enum class FileType {
+        AUDIO, IMAGE
     }
 }

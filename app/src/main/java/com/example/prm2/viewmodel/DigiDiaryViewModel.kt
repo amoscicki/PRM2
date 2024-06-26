@@ -3,6 +3,7 @@ package com.example.prm2.viewmodel
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.prm2.dependencyinjection.AudioRecorder
 import com.example.prm2.dependencyinjection.FirebaseDB
 import com.example.prm2.dependencyinjection.ImageCanvas
@@ -10,7 +11,9 @@ import com.example.prm2.dependencyinjection.LocationServiceProvider
 import com.example.prm2.dependencyinjection.PermissionsManager
 import com.example.prm2.extensions.toEntry
 import com.example.prm2.model.Entry
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.coroutines.launch
 
 class DigiDiaryViewModel(
     private val firebaseDB: FirebaseDB,
@@ -20,6 +23,7 @@ class DigiDiaryViewModel(
     private val locationServiceProvider: LocationServiceProvider
 ) : ViewModel() {
     private lateinit var datalistener: ListenerRegistration
+
 
     val keyword = mutableStateOf("")
     val setKeyword = { kw: String ->
@@ -47,7 +51,7 @@ class DigiDiaryViewModel(
                 keyword.value,
                 ignoreCase = true
             ) ?: false
-       }.let {
+        }.let {
             entries.clear()
             entries.putAll(it)
             println(entries)
@@ -55,30 +59,35 @@ class DigiDiaryViewModel(
 
     }
 
-    val location = locationServiceProvider.currentLocation
+
+    val currentLocation = mutableStateOf<LatLng>(LatLng(51.5, 0.0))
     val getLocationName = locationServiceProvider::getLocationName
     val getCountryName = locationServiceProvider::getCountryName
 
     val startRecording = audioRecorder::startRecording
     val stopRecording = audioRecorder::stopRecording
 
-init {
-    datalistener = firebaseDB.listen("entries") { qs ->
-        keyword.value = ""
-        fetchedEntries.clear()
-        qs?.documents?.forEach { doc ->
-            fetchedEntries[doc.id] = doc.toEntry()!!
+    init {
+        datalistener = firebaseDB.listen("entries") { qs ->
+            keyword.value = ""
+            fetchedEntries.clear()
+            qs?.documents?.forEach { doc ->
+                fetchedEntries[doc.id] = doc.toEntry()!!
+            }
+            applyFilters()
         }
-        applyFilters()
+        viewModelScope.launch {
+            locationServiceProvider.startLocationUpdates().collect { location ->
+                currentLocation.value = LatLng(location.latitude, location.longitude)
+            }
+        }
     }
-    locationServiceProvider.startLocationUpdates()
-}
 
-override fun onCleared() {
-    super.onCleared()
-    datalistener.remove()
-    locationServiceProvider.stopLocationUpdates()
-}
+    override fun onCleared() {
+        super.onCleared()
+        datalistener.remove()
+        locationServiceProvider.stopLocationUpdates()
+    }
 
 }
 

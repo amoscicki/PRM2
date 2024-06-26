@@ -14,23 +14,24 @@ import androidx.navigation.compose.rememberNavController
 import com.example.prm2.ui.NavigationHost
 import com.example.prm2.ui.theme.DigiDiaryTheme
 import com.example.prm2.viewmodel.DigiDiaryViewModel
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.currentLocation
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.deleteEntry
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.entries
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.getLocationName
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.getCountryName
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.keyword
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.permissions
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.saveEntry
-import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.setKeyword
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalDeleteEntry
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalEntries
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetCountryName
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetLocationName
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalKeyword
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalPermissions
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSaveEntry
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetKeyword
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalStartRecording
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalStopRecording
 import com.example.prm2.viewmodel.viewModelFactory
 
 
 class DigiDiaryActivity : ComponentActivity() {
 
 
-    // get location
-    // get date
+
     // function for adding picture
     // screen for editing picture
     // function for adding audio
@@ -59,15 +60,17 @@ class DigiDiaryActivity : ComponentActivity() {
                 })
 
                 CompositionLocalProvider(
-                    entries provides digiDiaryViewModel.entries,
-                    saveEntry provides digiDiaryViewModel.saveEntry,
-                    deleteEntry provides digiDiaryViewModel.deleteEntry,
-                    keyword provides digiDiaryViewModel.keyword.value,
-                    setKeyword provides digiDiaryViewModel.setKeyword,
-                    permissions provides digiDiaryViewModel.permissions.value,
-                    currentLocation provides digiDiaryViewModel.location.value,
-                    getLocationName provides digiDiaryViewModel.getLocationName,
-                    getCountryName provides digiDiaryViewModel.getCountryName
+                    LocalEntries provides digiDiaryViewModel.entries,
+                    LocalSaveEntry provides digiDiaryViewModel.saveEntry,
+                    LocalDeleteEntry provides digiDiaryViewModel.deleteEntry,
+                    LocalKeyword provides digiDiaryViewModel.keyword.value,
+                    LocalSetKeyword provides digiDiaryViewModel.setKeyword,
+                    LocalPermissions provides digiDiaryViewModel.permissions.value,
+                    LocalCurrentLocation provides digiDiaryViewModel.currentLocation.value,
+                    LocalGetLocationName provides digiDiaryViewModel.getLocationName,
+                    LocalGetCountryName provides digiDiaryViewModel.getCountryName,
+                    LocalStartRecording provides digiDiaryViewModel.startRecording,
+                    LocalStopRecording provides digiDiaryViewModel.stopRecording
                 ) {
                     println("Keyword: ${digiDiaryViewModel.keyword.value}")
                     println("Entries: ${digiDiaryViewModel.entries}")

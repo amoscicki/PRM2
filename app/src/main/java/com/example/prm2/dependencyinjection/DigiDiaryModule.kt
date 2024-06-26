@@ -26,4 +26,5 @@ class DigiDiaryModule(
         LocationServiceProvider(context)
     }
 
+
 }

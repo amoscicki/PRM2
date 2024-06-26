@@ -10,7 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.prm2.R
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -19,8 +21,7 @@ fun TopMenu(navController: NavHostController) {
     val location = LocalCurrentLocation.current
     TopAppBar(modifier = Modifier,
         title = {
-//            Text(text = stringResource(R.string.app_title))
-            Text(text=location.toString())
+            Text(text = stringResource(R.string.app_title))
                 },
         navigationIcon = {
             IconButton(onClick = { navController.navigate(EntryListRoute) }) {
