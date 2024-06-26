@@ -17,7 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.prm2.R
 import com.example.prm2.extensions.createTempPictureUri
 import com.example.prm2.extensions.saveBitmapToFile
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetTempImageFile
@@ -50,7 +52,7 @@ fun ImageComponent(modifier: Modifier) {
             if (granted) {
                 tempPhotoUri = context.createTempPictureUri()
                 cameraLauncher.launch(tempPhotoUri)
-            } else print("camera permission is denied")
+            } else print(context.getString(R.string.camera_permission_is_denied))
         })
 
 
@@ -60,7 +62,7 @@ fun ImageComponent(modifier: Modifier) {
         Button(modifier = Modifier.fillMaxWidth(), onClick = {
             cameraPermissionState.launchPermissionRequest()
         }) {
-            Text("Take Picture")
+            Text(stringResource(R.string.take_picture))
 
         }
         Column(

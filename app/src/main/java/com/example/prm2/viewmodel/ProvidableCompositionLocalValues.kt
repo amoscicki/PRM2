@@ -60,6 +60,14 @@ class ProvidableCompositionLocalValues {
             error("No file upload provided")
         }
 
+        val LocalDownloadFile = staticCompositionLocalOf<(
+            fileUrl: String,
+            callback: (File) -> Unit
+        ) -> Unit> {
+            error("No file download provided")
+        }
+
+
         val LocalTempImageFile = compositionLocalOf<File?> {
             error("No image file provided")
         }

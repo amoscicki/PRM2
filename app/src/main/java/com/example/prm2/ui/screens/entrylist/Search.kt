@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.prm2.R
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalKeyword
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetKeyword
 
@@ -46,7 +48,7 @@ fun Search() {
                     setKeyword(it)
 
                 },
-                placeholder = { Text("Search...") })
+                placeholder = { Text(stringResource(R.string.search)) })
             Icon(Icons.Outlined.Search, contentDescription = null)
         }
     }

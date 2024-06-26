@@ -27,7 +27,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.prm2.R
 import com.example.prm2.model.Audio
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalAudioRecorder
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSetTempAudioFile
@@ -85,10 +87,10 @@ fun RecordingComponent(
         ) {
             Icon(
                 if (isRecording) Icons.Filled.Stop else Icons.Filled.Mic,
-                contentDescription = if (isRecording) "Stop Recording" else "Start Recording"
+                contentDescription = if (isRecording) stringResource(R.string.stop_recording_dsc) else stringResource(R.string.start_recording_dsc)
             )
             Spacer(Modifier.width(8.dp))
-            Text(if (isRecording) "Stop Recording" else "Start Recording")
+            Text(if (isRecording) stringResource(R.string.stop_recording_btn) else stringResource(R.string.start_recording_btn))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -138,7 +140,9 @@ fun RecordingComponent(
             ) {
                 Icon(
                     if (isPlaying && !isPaused) Icons.Filled.Pause else Icons.Filled.PlayArrow,
-                    contentDescription = if (isRecording) "Stop Recording" else "Start Recording"
+                    contentDescription = if (isRecording) stringResource(R.string.stop_recording) else stringResource(
+                        R.string.start_recording
+                    )
                 )
             }
 
@@ -152,7 +156,7 @@ fun RecordingComponent(
                 },
                 enabled = isPlaying || isPaused
             ) {
-                Icon(Icons.Filled.Stop, contentDescription = "Stop")
+                Icon(Icons.Filled.Stop, contentDescription = stringResource(R.string.stop))
             }
 
             IconButton(
@@ -166,7 +170,7 @@ fun RecordingComponent(
                 },
                 enabled = currentFile != null
             ) {
-                Icon(Icons.Filled.Delete, contentDescription = "Discard Recording")
+                Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.discard_recording))
             }
         }
 

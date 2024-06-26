@@ -64,6 +64,7 @@ class DigiDiaryViewModel(
     }
 
     val uploadFile = firebaseDB::uploadFile
+    val downloadFile = firebaseDB::downloadFile
 
     val tempImageFile = mutableStateOf<File?>(null)
     val setTempImageFile = { file: File? ->
@@ -92,6 +93,7 @@ class DigiDiaryViewModel(
             qs?.documents?.forEach { doc ->
                 fetchedEntries[doc.id] = doc.toEntry()!!
             }
+
             applyFilters()
         }
         viewModelScope.launch {
@@ -106,6 +108,8 @@ class DigiDiaryViewModel(
         datalistener.remove()
         locationServiceProvider.stopLocationUpdates()
     }
+
+
 
 }
 

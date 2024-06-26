@@ -12,7 +12,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import com.example.prm2.R
 import com.example.prm2.ui.EntryListRoute
 
 @Composable
@@ -24,16 +26,16 @@ fun PinScreen(modifier: Modifier, navController: NavController) {
         verticalArrangement = Center,
         horizontalAlignment = CenterHorizontally
     ) {
-        Text("Enter your pin")
+        Text(stringResource(R.string.enter_your_pin))
         TextField(
             value = pin.value,
             onValueChange = {
                 pin.value = it
             },
-            placeholder = { Text("Enter pin...") }
+            placeholder = { Text(stringResource(R.string.enter_pin)) }
         )
         if(showError.value)
-            Text("Incorrect pin", style =  MaterialTheme.typography.bodyLarge , color =  MaterialTheme.colorScheme.error)
+            Text(stringResource(R.string.incorrect_pin), style =  MaterialTheme.typography.bodyLarge , color =  MaterialTheme.colorScheme.error)
     }
     LaunchedEffect(pin.value) {
         if(pin.value == "1234") {

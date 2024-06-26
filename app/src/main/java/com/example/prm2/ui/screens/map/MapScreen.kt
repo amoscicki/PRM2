@@ -6,7 +6,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.prm2.R
 import com.example.prm2.model.Entry
 import com.example.prm2.ui.screens.entrylist.EntryCard
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
@@ -42,7 +44,7 @@ fun MapScreen(modifier: Modifier, navController: NavHostController) {
                     position = startLocation,
                 ),
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE),
-                title = "Current Location",
+                title = stringResource(R.string.current_location),
             )
             entries.forEach { (key, entry) ->
                 Marker(

@@ -13,7 +13,6 @@ import androidx.navigation.compose.composable
 import com.example.prm2.ui.screens.entrylist.EntryListScreen
 import com.example.prm2.ui.screens.map.MapScreen
 import com.example.prm2.ui.screens.permissions.PermissionManagementScreen
-import com.example.prm2.ui.screens.picture.ImageComponent
 import com.example.prm2.ui.screens.pin.PinScreen
 import kotlinx.serialization.Serializable
 
@@ -48,12 +47,11 @@ fun NavigationHost(navController: NavHostController) {
         topBar = { getTopBar() }
     ) { paddingValues ->
         val modifier = Modifier.padding(paddingValues)
-        NavHost(navController, startDestination = EntryListRoute) {
+        NavHost(navController, startDestination = PinRoute) {
             composable<PermissionsManagementRoute> { PermissionManagementScreen(modifier, navController) }
             composable<EntryListRoute> { EntryListScreen(modifier, navController) }
             composable<MapRoute> { MapScreen(modifier, navController) }
             composable<PinRoute> { PinScreen(modifier, navController) }
-            composable<SandboxRoute> { ImageComponent(modifier) }
         }
     }
 }
@@ -71,5 +69,3 @@ object MapRoute
 @Serializable
 object PinRoute
 
-@Serializable
-object SandboxRoute

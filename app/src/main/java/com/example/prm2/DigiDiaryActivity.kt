@@ -17,6 +17,7 @@ import com.example.prm2.viewmodel.DigiDiaryViewModel
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalAudioRecorder
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalDeleteEntry
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalDownloadFile
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalEntries
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetCountryName
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetLocationName
@@ -64,6 +65,7 @@ class DigiDiaryActivity : ComponentActivity() {
                     )
                 })
 
+
                 CompositionLocalProvider(
                     LocalEntries provides digiDiaryViewModel.entries,
                     LocalSaveEntry provides digiDiaryViewModel.saveEntry,
@@ -76,6 +78,7 @@ class DigiDiaryActivity : ComponentActivity() {
                     LocalGetCountryName provides digiDiaryViewModel.getCountryName,
                     LocalAudioRecorder provides digiDiaryViewModel.audioRecorderObject,
                     LocalUploadFile provides digiDiaryViewModel.uploadFile,
+                    LocalDownloadFile provides digiDiaryViewModel.downloadFile,
                     LocalTempAudioFile provides digiDiaryViewModel.tempAudioFile.value,
                     LocalSetTempAudioFile provides digiDiaryViewModel.setTempAudioFile,
                     LocalTempAudioSeconds provides digiDiaryViewModel.tempAudioSeconds.value,

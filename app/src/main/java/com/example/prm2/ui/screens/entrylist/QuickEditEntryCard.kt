@@ -21,19 +21,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.prm2.R
 import com.example.prm2.model.Audio
 import com.example.prm2.model.Entry
 import com.example.prm2.ui.DialogButton
 import com.example.prm2.ui.screens.audio.RecordingComponent
 import com.example.prm2.ui.screens.picture.ImageComponent
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalCurrentLocation
+import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalDownloadFile
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetCountryName
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalGetLocationName
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalSaveEntry
@@ -62,7 +66,7 @@ fun QuickEditEntryCard(
     val setTempAudio = LocalSetTempAudioFile.current
     val tempAudioLength = LocalTempAudioSeconds.current
     val setTempAudioLength = LocalSetTempAudioSeconds.current
-
+    val downloadFile = LocalDownloadFile.current
     val location = mutableStateOf(entry.value?.geo ?: currentLocation)
 
     val date = mutableStateOf(entry.value?.date ?: Date())
@@ -75,7 +79,15 @@ fun QuickEditEntryCard(
 
     val audio = mutableStateOf(entry.value?.audio ?: Audio())
 
-
+    LaunchedEffect(key,entry) {
+        if (key.value != null && entry.value?.audio?.url != null) {
+            downloadFile(entry.value?.audio?.url!!, setTempAudio)
+            setTempAudioLength(entry.value?.audio?.lengthSec!!)
+        }
+        if (key.value != null && entry.value?.imageUrl != null) {
+            downloadFile(entry.value?.imageUrl!!, setTempImage)
+        }
+    }
 
     Card(
         modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)
@@ -93,7 +105,12 @@ fun QuickEditEntryCard(
             )
             {
                 Text(
-                    text = "Quick ${if (entry.value == null) "Create" else "Edit"} Entry",
+                    text = stringResource(
+                        R.string.quick_entry,
+                        if (entry.value == null) stringResource(R.string.create) else stringResource(
+                            R.string.edit
+                        )
+                    ),
                     modifier = Modifier.padding(16.dp, 16.dp),
                     style = MaterialTheme.typography.labelSmall
                 )
@@ -161,7 +178,7 @@ fun QuickEditEntryCard(
                     .padding(16.dp, 0.dp),
                     value = title.value,
                     onValueChange = { title.value = it },
-                    placeholder = { Text("Title goes here") })
+                    placeholder = { Text(stringResource(R.string.title_goes_here)) })
 
             }
 
@@ -193,7 +210,7 @@ fun QuickEditEntryCard(
 
 
                     DialogButton(
-                        icon = Icons.Outlined.Image, contentDescription = "Manage picture",
+                        icon = Icons.Outlined.Image, contentDescription = stringResource(R.string.manage_picture),
                         defaultPadding = false,
                         highlight = LocalTempImageFile.current != null
                     ) {
@@ -203,7 +220,7 @@ fun QuickEditEntryCard(
 
                     DialogButton(
                         icon = Icons.Outlined.LibraryMusic,
-                        contentDescription = "Manage audio recording",
+                        contentDescription = stringResource(R.string.manage_audio_recording),
                         highlight = LocalTempAudioFile.current != null
                     ) {
                         RecordingComponent()

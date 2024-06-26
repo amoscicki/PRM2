@@ -44,13 +44,11 @@ class FirebaseDB {
             val entry = Entry(
                 date = Date(),
                 geo = LatLng(51.5, 0.0),
-                audio =
-                Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", 60),
-
-                )
+                imageUrl = "https://cdn.britannica.com/89/187589-050-E8D5A657/Workers-Big-Ben-London.jpg")
             if (it.documents.size == 0)
                 for (i in 1..10) {
                     entry.title = "Entry $i"
+                    entry.note = "This is entry $i \n lorem ipsum dolor sit amet \n lorem ipsum dolor sit amet \n lorem ipsum dolor sit amet"
                     entry.geo = LatLng(
                         (entry.geo!!.latitude.plus(i * 0.2)),
                         entry.geo!!.longitude.minus(i * 0.2)
@@ -122,7 +120,7 @@ class FirebaseDB {
         }
     }
 
-    fun getFile(fileUrl: String, callback: (File) -> Unit) {
+    fun downloadFile(fileUrl: String, callback: (File) -> Unit) {
         val storage = Firebase.storage
         val storageRef = storage.reference
         val fileRef = storageRef.child(fileUrl)

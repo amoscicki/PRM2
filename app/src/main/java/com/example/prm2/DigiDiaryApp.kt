@@ -30,6 +30,7 @@ class DigiDiaryApp : Application() {
 
         Intent(applicationContext, LocationService::class.java).apply {
             action = LocationService.ACTION_START
+
         }.also {
             startService(it)
         }

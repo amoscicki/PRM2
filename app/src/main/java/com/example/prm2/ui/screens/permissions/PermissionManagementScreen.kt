@@ -20,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.prm2.R
 import com.example.prm2.ui.PinRoute
 import com.example.prm2.viewmodel.ProvidableCompositionLocalValues.Companion.LocalPermissions
 
@@ -47,12 +49,12 @@ fun PermissionManagementScreen(
             Icon(Icons.Outlined.Shield, contentDescription = null)
 
         Text(
-            text = "Manage Permissions",
+            text = stringResource(R.string.manage_permissions),
             style = MaterialTheme.typography.headlineMedium
         )}
 
         Text(
-            "In order to use the app, you need to grant the following permissions:",
+            stringResource(R.string.in_order_to_use_the_app_you_need_to_grant_the_following_permissions),
             style = MaterialTheme.typography.labelSmall
         )
 
@@ -82,7 +84,7 @@ fun PermissionManagementScreen(
                 context.startActivity(intent)
 
             }) {
-            Text("Manage Permissions")
+            Text(stringResource(R.string.manage_permissions_btn))
         }
 
         Button(modifier = Modifier.fillMaxWidth(),
@@ -90,7 +92,7 @@ fun PermissionManagementScreen(
                 navController.navigate(PinRoute)
             }, enabled = LocalPermissions.current.checkAllPermissionsGranted()
         ) {
-            Text("Continue")
+            Text(stringResource(R.string.continue_btn))
         }
 
 
